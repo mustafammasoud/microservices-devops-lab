@@ -39,13 +39,31 @@ microservices-demo/
 ├── order-service/        # Order processing
 ├── frontend/             # Web frontend
 ├── nginx/                # Load balancer config
+├── scripts/
+│   └── dev.sh            # Development setup script
 ├── docker-compose.yml    # Docker Compose configuration
 └── README.md
 ```
 
 ##  Quick Start
 
-### Development Mode
+### Using the Dev Script (Recommended)
+
+```bash
+# Make the script executable (first time only)
+chmod +x scripts/dev.sh
+
+# Run the development setup
+./scripts/dev.sh
+```
+
+The `dev.sh` script will:
+1. Verify Docker and Docker Compose are running
+2. Check all required files exist
+3. Build and start all services
+4. Run health checks on all containers
+
+### Manual Start
 
 ```bash
 # Start all services
@@ -54,13 +72,14 @@ docker compose up -d --build
 # View logs
 docker compose logs -f
 
-# Access the application
-# Frontend: http://localhost
-# API Endpoints: http://localhost/api/users, /api/products, /api/orders
-
 # Stop all services
 docker compose down
 ```
+
+### Access the Application
+
+- Frontend: http://localhost
+- API Endpoints: http://localhost/api/users, /api/products, /api/orders
 
 ## 🔌 API Endpoints
 
