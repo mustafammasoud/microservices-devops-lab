@@ -8,7 +8,7 @@ A complete microservices-based e-commerce platform demonstrating Docker best pra
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                              NGINX                                      │
 │                         (Load Balancer)                                 │
-│                           Port 80/443                                   │
+│                           Port 80                                       │
 └─────────────────────────────┬───────────────────────────────────────────┘
                               │
 ┌─────────────────────────────▼───────────────────────────────────────────┐
@@ -39,8 +39,7 @@ microservices-demo/
 ├── order-service/        # Order processing
 ├── frontend/             # Web frontend
 ├── nginx/                # Load balancer config
-├── docker-compose.yml    # Development setup
-├── docker-compose.prod.yml # Production setup
+├── docker-compose.yml    # Docker Compose configuration
 └── README.md
 ```
 
@@ -57,30 +56,19 @@ docker compose logs -f
 
 # Access the application
 # Frontend: http://localhost
-# API Gateway: http://localhost:3000
-# API Docs: http://localhost:3000/health
+# API Endpoints: http://localhost/api/users, /api/products, /api/orders
 
 # Stop all services
 docker compose down
 ```
 
-### Production Mode
-
-```bash
-# Start with production configuration
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-
-# Scale services
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --scale product-service=3
-```
-
 ## 🔌 API Endpoints
 
-### API Gateway (http://localhost:3000)
+### Via Nginx (http://localhost)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/health` | Health check |
+| GET | `/` | Frontend |
 | GET | `/api/users` | List users |
 | POST | `/api/users` | Create user |
 | GET | `/api/products` | List products |
@@ -91,24 +79,27 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --scale pr
 ## 🧪 Testing the Services
 
 ```bash
-# Health check
-curl http://localhost:3000/health
+# List users
+curl http://localhost/api/users
 
 # Create a user
-curl -X POST http://localhost:3000/api/users \
+curl -X POST http://localhost/api/users \
   -H "Content-Type: application/json" \
   -d '{"name": "John Doe", "email": "john@example.com"}'
 
+# List products
+curl http://localhost/api/products
+
 # Create a product
-curl -X POST http://localhost:3000/api/products \
+curl -X POST http://localhost/api/products \
   -H "Content-Type: application/json" \
   -d '{"name": "Laptop", "price": 999.99, "stock": 50}'
 
-# List products
-curl http://localhost:3000/api/products
+# List orders
+curl http://localhost/api/orders
 
 # Create an order
-curl -X POST http://localhost:3000/api/orders \
+curl -X POST http://localhost/api/orders \
   -H "Content-Type: application/json" \
   -d '{"userId": 1, "productId": 1, "quantity": 2}'
 ```
@@ -126,7 +117,6 @@ Each service has its own optimized Dockerfile with:
 ### API Gateway
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `PORT` | 3000 | Server port |
 | `USER_SERVICE_URL` | http://user-service:3001 | User service URL |
 | `PRODUCT_SERVICE_URL` | http://product-service:3002 | Product service URL |
 | `ORDER_SERVICE_URL` | http://order-service:3003 | Order service URL |
@@ -134,7 +124,6 @@ Each service has its own optimized Dockerfile with:
 ### Services
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `PORT` | varies | Server port |
 | `DATABASE_URL` | - | PostgreSQL connection string |
 
 ## 📊 Monitoring
