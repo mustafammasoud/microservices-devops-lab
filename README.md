@@ -40,7 +40,8 @@ microservices-demo/
 ├── frontend/             # Web frontend
 ├── nginx/                # Load balancer config
 ├── scripts/
-│   └── dev.sh            # Development setup script
+│   ├── dev.sh            # Development setup script
+│   └── stop.sh           # Stop all services
 ├── docker-compose.yml    # Docker Compose configuration
 └── README.md
 ```
@@ -50,11 +51,14 @@ microservices-demo/
 ### Using the Dev Script (Recommended)
 
 ```bash
-# Make the script executable (first time only)
-chmod +x scripts/dev.sh
+# Make the scripts executable (first time only)
+chmod +x scripts/*.sh
 
 # Run the development setup
 ./scripts/dev.sh
+
+# Stop all services
+./scripts/stop.sh
 ```
 
 The `dev.sh` script will:
@@ -62,6 +66,13 @@ The `dev.sh` script will:
 2. Check all required files exist
 3. Build and start all services
 4. Run health checks on all containers
+
+The `stop.sh` script will:
+1. Verify Docker and Docker Compose are running
+2. Check if any project containers are running
+3. Show which services will be stopped and ask for confirmation
+4. Stop and remove all containers and networks
+5. Verify shutdown was successful
 
 ### Manual Start
 
