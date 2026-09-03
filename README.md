@@ -41,7 +41,8 @@ microservices-demo/
 ├── nginx/                # Load balancer config
 ├── scripts/
 │   ├── dev.sh            # Development setup script
-│   └── stop.sh           # Stop all services
+│   ├── stop.sh           # Stop all services
+│   └── logs.sh           # View service logs
 ├── docker-compose.yml    # Docker Compose configuration
 └── README.md
 ```
@@ -73,6 +74,12 @@ The `stop.sh` script will:
 3. Show which services will be stopped and ask for confirmation
 4. Stop and remove all containers and networks
 5. Verify shutdown was successful
+
+The `logs.sh` script will:
+1. Verify Docker and Docker Compose are running
+2. Check if any project containers are running
+3. Display a numbered list of available services
+4. Let you select a specific service or view all logs
 
 ### Manual Start
 
