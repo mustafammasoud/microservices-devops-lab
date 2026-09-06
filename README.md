@@ -42,7 +42,8 @@ microservices-demo/
 ├── scripts/
 │   ├── dev.sh            # Development setup script
 │   ├── stop.sh           # Stop all services
-│   └── logs.sh           # View service logs
+│   ├── logs.sh           # View service logs
+│   └── deploy.sh         # Production deployment
 ├── docker-compose.yml    # Docker Compose configuration
 └── README.md
 ```
@@ -80,6 +81,16 @@ The `logs.sh` script will:
 2. Check if any project containers are running
 3. Display a numbered list of available services
 4. Let you select a specific service or view all logs
+
+The `deploy.sh` script will:
+1. Verify Docker, Docker Compose, and Git are available
+2. Check Git working tree is clean (no uncommitted changes)
+3. Ensure current branch is `main`
+4. Verify Git remote `origin` is configured
+5. Pull latest changes from remote
+6. Build Docker images
+7. Start services in detached mode
+8. Verify all services are healthy
 
 ### Manual Start
 
